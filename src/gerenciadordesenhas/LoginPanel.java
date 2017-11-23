@@ -40,36 +40,43 @@ public class LoginPanel extends JPanel{
         JPanel loginGrid = new JPanel();
         loginGrid.setLayout(new GridLayout(6,1));
         
-        loginGrid.add(new JLabel("Usario: "));
+        // Adicionando JLabels e JTextFields ao menu principal
+        loginGrid.add(new JLabel("Usuário: "));
         loginGrid.add(loginField);
         loginGrid.add(new JLabel("Senha: "));
         loginGrid.add(passwordField);
         loginGrid.add(new JLabel(""));
         
+        // Adicionando os Botoes Login e Registrar
         JPanel buttonGrid = new JPanel();
         buttonGrid.setLayout(new GridLayout(1,2));
         
         JButton loginButton = new JButton("Login");
         JButton registerButton = new JButton("Registrar");
         
+        // Implementação do botão de login
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loginName = loginField.getText();
                 password = passwordField.getText();
+                
+                // @@@@@
                 System.out.println(loginName);
                 System.out.println(password);
-                if(login()) {
+                login();
+                /*if(login()) {
                     //TODO
                     //Colocar para ir para tela do usario
                     JOptionPane.showMessageDialog(null, "Acesso confirmado","Logou",JOptionPane.OK_OPTION);
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Usuario ou senha incorreto","ERRO",JOptionPane.ERROR_MESSAGE);
-                }
+                }*/
             }
         });
         
+        // Implementação do Botão de Registrar
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,27 +94,42 @@ public class LoginPanel extends JPanel{
         
     }
 
-    private boolean login() {
+    private void login() {
         BufferedReader br = null;
         FileReader fr = null;
         
         try{
-           fr = new FileReader(LOGINTEXT);
-           br = new BufferedReader(fr);
+            fr = new FileReader(LOGINTEXT);
+            br = new BufferedReader(fr);
            
-           String s;
-           
-           boolean flagLogin = false;
-           boolean flagPassword = false;
-           
-            Hash hashName = new Hash(loginName);
+            
+            String nameCheck, passCheck;
+            String temp;
+            
             Hash hashPassword = new Hash(password);
            
-           while((s = br.readLine()) != null) {
-               StringTokenizer st = new StringTokenizer(s," :");
-               String prev = "";
 
-               while(st.hasMoreElements()) {
+            while((nameCheck = br.readLine()) != null && (passCheck = br.readLine()) != null) {
+                // System.out.println("Cheguei ate aqui com o user " + nameCheck + " e senha " + passCheck);
+                // System.out.println("O user era pra ser " + loginName);
+                if (nameCheck.equals(loginName)) {
+                    System.out.println(hashPassword.getHash() + " e senha " + passCheck);
+                    if (passCheck.equals(hashPassword.getHash())) {
+                        
+                        ProfileFrame pf = new ProfileFrame(loginName, password);
+                        
+                        return;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Senha incorreta","ERRO",JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                
+                }
+            }
+            
+            JOptionPane.showMessageDialog(null, "Usuário não foi encontrado","ERRO",JOptionPane.ERROR_MESSAGE);
+                
+               /*while(st.hasMoreElements()) {
                    String aux = st.nextToken();                   
                    Hash hashAux = new Hash(aux);
                   
@@ -128,11 +150,10 @@ public class LoginPanel extends JPanel{
                        flagPassword = false;                       
                    }
                    prev = aux;                   
-               }
+               }*/
                
-           }
-           
         }
+        
         catch(FileNotFoundException ex) {
             System.out.println(
                 "Unable to open file '" + 
@@ -143,7 +164,7 @@ public class LoginPanel extends JPanel{
                 "Error reading file '" 
                 + LOGINTEXT + "'");                  
 
-        } 
-        return false;
+        }
     }
+    
 }

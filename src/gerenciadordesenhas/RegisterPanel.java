@@ -41,7 +41,7 @@ public class RegisterPanel extends JPanel{
         JPanel registerGrid = new JPanel();
         registerGrid.setLayout(new GridLayout(6,1));
         
-        registerGrid.add(new JLabel("Digite um novo nome de usario:"));
+        registerGrid.add(new JLabel("Digite um novo nome de usuário:"));
         registerGrid.add(loginField);
         registerGrid.add(new JLabel("Digite uma nova senha:"));
         registerGrid.add(passwordField);
@@ -66,9 +66,8 @@ public class RegisterPanel extends JPanel{
                         JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso");
                         //TODO 
                         //Fechar a janela após cadastrar
-                        Hash name = new Hash(loginName);
                         try {
-                            pw = new PrintWriter("src/"  + name.getHash() + ".txt");
+                            pw = new PrintWriter("src/"  + loginName + ".txt");
                             
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(RegisterPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,11 +139,10 @@ public class RegisterPanel extends JPanel{
             bw = new BufferedWriter(fw);
             
             bw.write(originalFile);
-            bw.write("Login: ");
-            Hash hashName = new Hash(loginName);
-            bw.write(hashName.getHash() + '\n');
+//            bw.write("Login: ");
+            bw.write(loginName + '\n');
             Hash hashPassword = new Hash(password);
-            bw.write("Password: ");
+//            bw.write("Password: ");
             bw.write(hashPassword.getHash() + '\n');
             
         } catch (IOException ex) {

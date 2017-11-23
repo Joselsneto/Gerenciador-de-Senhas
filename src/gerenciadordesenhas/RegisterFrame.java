@@ -15,7 +15,7 @@ public class RegisterFrame extends JFrame{
     
     public RegisterFrame() {
         super("Registrar");
-        setSize(600,600);
+        setSize(600, 600);
         add(new RegisterPanel());
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

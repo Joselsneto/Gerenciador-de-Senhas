@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame{
     public MainFrame() {
         super("Gerenciador de Senhas");
-        setSize(600,600);
+        setSize(400, 400);
         add(new MainPanel());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
